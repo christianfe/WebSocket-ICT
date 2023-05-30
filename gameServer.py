@@ -18,18 +18,6 @@ class GameManager():
         self.__match = self.getJSON("game", init=True)
         self.winner = ""
 
-    # def getStatusJSON(self, websocket, winner=""):
-    #     if not winner == "":
-    #         self.winner = winner
-    #     if self.__s == 3 or self.__s == 0:
-    #         return {"user": self.userStatus(websocket), "game": self.getStatus(), "users": len(self.MAP), "winner": self.winner}
-    #     return {"user": self.userStatus(websocket), "game": self.getStatus(), "users": len(self.MAP)}
-
-    # def gameJSON(self, ws=None, init=False):
-    #     if init:
-    #         return {"ROUNDS": 5, "RED": {"score": 20, "force": 20, "round": 0}, "BLUE": {"score": 20, "force": 20, "round": 0}}
-    #     return {"Info": self.getStatusJSON(ws), "GAME": self.__match}
-
     def getJSON(self, type: str, msg="", ws: object = None, init=False, string=False):
         res = {}
         if type == "game":
