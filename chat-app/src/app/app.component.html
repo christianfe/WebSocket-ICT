@@ -1,0 +1,17 @@
+<div class="container" style="width: 600px;">
+  <h1 class="text-center">Chat with random people</h1>
+  <p class="text-center text-info">{{messageService.id}}</p>
+
+  <form (submit)="send(m)" #form="ngForm" style="width: 100%;">
+    <div class="input-group mt-4 mb-4">
+      <input name="m" [(ngModel)]="m" type="text" class="form-control" placeholder="Type your message..."
+        aria-label="Message" aria-describedby="button-addon2" [disabled]="!messageService.id">
+      <button class="btn btn-primary" type="submit" id="button-addon2" [disabled]="!messageService.id">Send</button>
+    </div>
+  </form>
+
+
+  <div *ngFor="let m of messageService.msgs.reverse()">
+    <app-message [message]="m"></app-message>
+  </div>
+</div>
