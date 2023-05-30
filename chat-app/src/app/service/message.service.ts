@@ -19,12 +19,28 @@ export class MessageService {
       this.socket$ = webSocket(URL);
 
       this.socket$.subscribe((data: Message | any) => {
-        if (data["hi"]) {
+        if (data["hi"])
           this.id = data["hi"]
-          console.log(this.id)
+        else if (data["join"])
+          this.msgs.push({
+            mine: 0,
+            sender: "server",
+            msg: data["join"] + " join the chat"
+          })
+        else if (data["left"])
+          this.msgs.push({
+            mine: 0,
+            sender: "server",
+            msg: data["left"] + " left the chat"
+          })
+        else {
+          let mine = data["sender"] == this.id ? 1 : 2;
+          this.msgs.push({
+            mine: mine,
+            sender: data["sender"],
+            msg: data["msg"]
+          })
         }
-        else
-          this.msgs.push(data)
       });
     }
   }

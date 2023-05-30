@@ -1,10 +1,17 @@
-<div class="card bg-primary mb-3" *ngIf="message && message.mine">
+<div class="card bg-warning mb-3" *ngIf="message && (message.mine == 0)">
+  <div class="card-body text-center">
+    <p class="card-text">{{message.msg}}</p>
+  </div>
+</div>
+
+<div class="card bg-primary mb-3" *ngIf="message && (message.mine == 1)">
   <div class="card-body">
     <p class="card-text">{{message.msg}}</p>
   </div>
 </div>
 
-<div class="card text-white bg-dark mb-3" *ngIf="message && !message.mine">
+<div class="card text-white bg-dark mb-3" *ngIf="message && (message.mine == 2)">
+  <div class="card-header text-end">{{message.sender}}</div>
   <div class="text-end card-body">
     <p class="card-text">{{message.msg}}</p>
   </div>

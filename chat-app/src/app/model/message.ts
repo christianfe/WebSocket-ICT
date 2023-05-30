@@ -1,4 +1,5 @@
 export interface Message {
-  mine: boolean
+  mine: number
+  sender: string
   msg: string
 }
