@@ -1,9 +1,7 @@
 import asyncio
 import json
-import logging
 import websockets
 
-logging.basicConfig()
 
 USERS = {}
 
@@ -14,8 +12,9 @@ async def handler(websocket):
     try:
 
         print("new connection:", id)
-        await websocket.send(json.dumps({"hi": id}))
-        websockets.broadcast(USERS.values(), json.dumps({"join": id}))
+        await websocket.send(json.dumps({"hi": id, "connected": (len(USERS)+1)}))
+        websockets.broadcast(USERS.values(), json.dumps(
+            {"join": id, "connected": (len(USERS)+1)}))
         USERS[id] = websocket
 
         async for message in websocket:
@@ -26,10 +25,11 @@ async def handler(websocket):
                 websockets.broadcast(USERS.values(), json.dumps(
                     {"sender": id, "msg": event["msg"]}))
             else:
-                logging.error("unsupported event: %s", event)
+                print("unsupported event: ", event)
     finally:
         del USERS[id]
-        websockets.broadcast(USERS.values(), json.dumps({"left": id}))
+        websockets.broadcast(USERS.values(), json.dumps(
+            {"left": id, "connected": len(USERS)}))
 
 
 async def main():

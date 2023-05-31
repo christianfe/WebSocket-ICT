@@ -12,6 +12,7 @@ export class MessageService {
   private socket$!: WebSocketSubject<any>;
   public msgs: Message[] = [];
   public id = ""
+  public counter: number = 1
   constructor() { }
 
   public connect(): void {
@@ -19,21 +20,25 @@ export class MessageService {
       this.socket$ = webSocket(URL);
 
       this.socket$.subscribe((data: Message | any) => {
-        if (data["hi"])
+        if (data["hi"]) {
+          this.counter = data["connected"]
           this.id = data["hi"]
-        else if (data["join"])
+          this.counter
+        } else if (data["join"]) {
+          this.counter = data["connected"]
           this.msgs.push({
             mine: 0,
             sender: "server",
             msg: data["join"] + " join the chat"
           })
-        else if (data["left"])
+        } else if (data["left"]) {
+          this.counter = data["connected"]
           this.msgs.push({
             mine: 0,
             sender: "server",
             msg: data["left"] + " left the chat"
           })
-        else {
+        } else {
           let mine = data["sender"] == this.id ? 1 : 2;
           this.msgs.push({
             mine: mine,
