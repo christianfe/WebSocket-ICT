@@ -5,13 +5,14 @@
 </div>
 
 <div class="card bg-primary mb-3" *ngIf="message && (message.mine == 1)">
+  <div class="card-header">You <span *ngIf="message.admin == '1'">&#9733;</span></div>
   <div class="card-body">
     <p class="card-text">{{message.msg}}</p>
   </div>
 </div>
 
 <div class="card text-white bg-dark mb-3" *ngIf="message && (message.mine == 2)">
-  <div class="card-header text-end">{{message.sender}}</div>
+  <div class="card-header text-end">{{message.sender}} <span *ngIf="message.admin == '1'">&#9733;</span></div>
   <div class="text-end card-body">
     <p class="card-text">{{message.msg}}</p>
   </div>

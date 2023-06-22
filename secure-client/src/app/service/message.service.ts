@@ -29,21 +29,24 @@ export class MessageService {
           this.msgs.push({
             mine: 0,
             sender: "server",
-            msg: data["join"] + " join the chat"
+            msg: data["join"] + " join the chat",
+            admin: "0"
           })
         } else if (data["left"]) {
           this.counter = data["connected"]
           this.msgs.push({
             mine: 0,
             sender: "server",
-            msg: data["left"] + " left the chat"
+            msg: data["left"] + " left the chat",
+            admin: "0"
           })
         } else {
           let mine = data["sender"] == this.id ? 1 : 2;
           this.msgs.push({
             mine: mine,
             sender: data["sender"],
-            msg: data["msg"]
+            msg: data["msg"],
+            admin: data["admin"]
           })
         }
       });
@@ -51,7 +54,7 @@ export class MessageService {
   }
 
   sendMessage(message: string) {
-    this.socket$.next({ "action": "msg", "msg": message });
+    this.socket$.next({ "admin": "0", "action": "msg", "msg": message });
   }
 
   close() {
