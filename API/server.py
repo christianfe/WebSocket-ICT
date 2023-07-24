@@ -11,21 +11,29 @@ async def handler(websocket):
     id = str(websocket.id)
     try:
 
-        print("new connection:", id)
+        # print("new connection:", id)
         await websocket.send(json.dumps({"hi": id, "connected": (len(USERS)+1)}))
         websockets.broadcast(USERS.values(), json.dumps(
             {"join": id, "connected": (len(USERS)+1)}))
         USERS[id] = websocket
 
         async for message in websocket:
+            # print(message)
             event = json.loads(message)
+            print(event)
             if event == "":
                 continue
             if event["action"] == "msg":
-                websockets.broadcast(USERS.values(), json.dumps(
-                    {"sender": id, "msg": event["msg"]}))
+                if event["admin"] == "1":
+                    websockets.broadcast(USERS.values(), json.dumps(
+                        {"sender": id, "msg": event["msg"], "admin": "1", "secret": "something very secret"}))
+                else:
+                    websockets.broadcast(USERS.values(), json.dumps(
+                        {"sender": id, "msg": event["msg"], "admin": "0"}))
             else:
                 print("unsupported event: ", event)
+    except Exception:
+        print("error")
     finally:
         del USERS[id]
         websockets.broadcast(USERS.values(), json.dumps(
