@@ -8,7 +8,7 @@ In this repo 3 services are available:
 
 ## Installation
 
-Clone this repo with `git clone https://github.com/christianfe/WebSocket-ITC`
+Clone this repo with `git clone https://github.com/christianfe/WebSocket-ICT`
 
 ### Python WebSocket Server
 
